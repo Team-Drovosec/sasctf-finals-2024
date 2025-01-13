@@ -1,0 +1,110 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.4.2"
+    id("com.diffplug.spotless") version "6.23.3"
+    id("io.micronaut.aot") version "4.4.2"
+}
+
+version = "0.1"
+group = "com.mercial.use.prohibited"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
+
+    implementation('com.fasterxml.jackson.core:jackson-databind:2.15.2')
+    implementation("io.micronaut.views:micronaut-views-thymeleaf")
+
+    // JWT
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+    // Jakarta Persistence API
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+    // Jakarta Validation API
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
+    implementation("io.micronaut.validation:micronaut-validation")
+
+    // Micronaut Serialization
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    runtimeOnly("org.xerial:sqlite-jdbc:3.43.0.0")
+    implementation("org.hibernate.orm:hibernate-community-dialects:6.4.1.Final")
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+    compileOnly("io.micronaut:micronaut-http-client")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testImplementation("io.micronaut:micronaut-http-client")
+
+    // Micronaut Test with JUnit 5
+    testImplementation("io.micronaut.test:micronaut-test-junit5:4.4.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+}
+
+
+application {
+    mainClass = "com.mercial.use.prohibited.Application"
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("21")
+    targetCompatibility = JavaVersion.toVersion("21")
+}
+
+
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.mercial.use.prohibited.*")
+    }
+    aot {
+        // Please review carefully the optimizations enabled below
+        // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading = false
+        convertYamlToJava = false
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+        replaceLogbackXml = true
+    }
+}
+
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+    options.compilerArgs.add('-parameters')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main/java")
+        }
+    }
+    test {
+        java {
+            srcDirs("src/test/java")
+        }
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = 'com.mercial.use.prohibited.Application'

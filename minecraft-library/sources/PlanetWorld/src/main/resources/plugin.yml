@@ -1,0 +1,13 @@
+name: PlanetWorld
+version: '${version}'
+main: com.mercial.use.prohibited.planetworld.PlanetWorld
+api-version: '1.16'
+depend: [WorldEdit, WorldGuard]
+load: STARTUP
+commands:
+  share:
+    description: Share your planet with your friend
+    usage: /share <friend name>
+  travel:
+    description: Travel to friend's planet (your planet with no arguments)
+    usage: /travel [friend name]

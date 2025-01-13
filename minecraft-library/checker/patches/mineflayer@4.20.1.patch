@@ -1,0 +1,21 @@
+diff --git a/lib/plugins/blocks.js b/lib/plugins/blocks.js
+index d8c0b41d05fcb9f96cd229e6aa7030c8ea03cdee..9b12445cbb416618527797a222fd2828c4db09f1 100644
+--- a/lib/plugins/blocks.js
++++ b/lib/plugins/blocks.js
+@@ -42,11 +42,11 @@ function inject (bot, { version, storageBuilder, hideErrors }) {
+   }
+ 
+   function addColumn (args) {
+-    if (!args.bitMap && args.groundUp) {
+-      // stop storing the chunk column
+-      delColumn(args.x, args.z)
+-      return
+-    }
++    // if (!args.bitMap && args.groundUp) {
++    //   // stop storing the chunk column
++    //   delColumn(args.x, args.z)
++    //   return
++    // }
+     let column = bot.world.getColumn(args.x, args.z)
+     if (!column) {
+       // Allocates new chunk object while taking world's custom min/max height into account

@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:13
+    cpus: 2
+    pids_limit: 1024
+    mem_limit: 1G
+    restart: always
+    stop_grace_period: 1s
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: beerloga
+    volumes:
+      - ./postgresql/schemas:/docker-entrypoint-initdb.d
+      - ./.pgdata:/var/lib/postgresql/data
+
+  back:
+    build: ./back
+    cpus: 2
+    pids_limit: 2048
+    mem_limit: 2G
+    ulimits:
+      nofile:
+        soft: 12000
+        hard: 12000
+    restart: always
+    stop_grace_period: 1s
+    depends_on:
+      - postgres
+    ports:
+      - 3000:3000
+
+  cleaner:
+    build: ./cleaner
+    cpus: 1
+    restart: always
+    stop_grace_period: 1s
+    depends_on:
+      - postgres
+

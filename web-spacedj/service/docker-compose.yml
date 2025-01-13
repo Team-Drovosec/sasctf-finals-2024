@@ -1,0 +1,17 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "3322:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend:/var/www/dj
+  
+  backend:
+    build: backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    volumes:
+    - ./data/redis:/var/lib/redis
+    - ./data/uploads:/app/uploads

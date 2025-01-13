@@ -1,0 +1,21 @@
+{
+  "name": "checkerbun",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "mineflayer": "^4.20.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "mineflayer-pathfinder": "^2.4.5"
+  },
+  "patchedDependencies": {
+    "yggdrasil@1.7.0": "patches/yggdrasil@1.7.0.patch",
+    "minecraft-protocol@1.47.0": "patches/minecraft-protocol@1.47.0.patch",
+    "mineflayer@4.20.1": "patches/mineflayer@4.20.1.patch"
+  }
+}

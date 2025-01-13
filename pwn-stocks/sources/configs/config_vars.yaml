@@ -1,0 +1,9 @@
+worker-threads: 8
+worker-fs-threads: 6
+logger-level: info
+
+is_testing: false
+
+server-port: 8080
+
+dbconnection: 'postgresql://trusted_trading:password@postgres:5432/pg_trusted_trading_db'

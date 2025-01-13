@@ -1,0 +1,31 @@
+diff --git a/src/Client.js b/src/Client.js
+index ead540fc95eb89660a16c95bd78da57481d8a7b3..a26caadd7b84b86cd123032728e5d61a7e17f373 100644
+--- a/src/Client.js
++++ b/src/Client.js
+@@ -48,10 +48,11 @@ function loader (moduleOptions) {
+   /**
+    * Validates an access token
+    * @param  {String}   accessToken Token to validate
++   * @param  {String}   clientToken Client Token
+    * @param  {Function} cb    (error)
+    */
+-  async function validate (accessToken) {
+-    return await utils.call(moduleOptions?.host ?? defaultHost, 'validate', { accessToken }, moduleOptions?.agent)
++  async function validate (accessToken, clientToken) {
++    return await utils.call(moduleOptions?.host ?? defaultHost, 'validate', { accessToken, clientToken }, moduleOptions?.agent)
+   }
+ 
+   /**
+diff --git a/src/utils.js b/src/utils.js
+index afc2e17e09ee1146a59b0c5674703486ea341311..f6a995cf605c9d75e2b27f5b2e6ae8a7dcf1cd11 100644
+--- a/src/utils.js
++++ b/src/utils.js
+@@ -3,7 +3,7 @@ const nf = require('node-fetch')
+ const { version } = require('../package.json'); // eslint-disable-line
+ 
+ const headers = {
+-  'User-Agent': `node-yggdrasil/${version}`,
++  'User-Agent': "Java/21.0.4",
+   'Content-Type': 'application/json'
+ }
+ 

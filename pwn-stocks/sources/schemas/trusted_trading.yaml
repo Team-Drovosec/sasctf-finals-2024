@@ -1,0 +1,191 @@
+components:
+    schemas:
+        LoginRequestBody:
+            type: object
+            additionalProperties: false
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+            required:
+                - username
+                - password
+
+        LoginResponseBody:
+            type: object
+            additionalProperties: false
+            properties:
+                token:
+                    type: string
+            required:
+                - token
+
+        RegisterRequestBody:
+            type: object
+            additionalProperties: false
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+            required:
+                - username
+                - password
+
+        RegisterResponseBody:
+            type: object
+            additionalProperties: false
+            properties:
+                message:
+                    type: string
+            required:
+                - message
+
+        UserInfoRequestBody:
+            type: object
+            additionalProperties: false
+
+        UserInfoResponseBody:
+            type: object
+            additionalProperties: false
+            properties:
+                stocks:
+                    type: integer
+                    format: int64
+                balance:
+                    type: integer
+                    format: int64
+                trades:
+                    type: array
+                    items:
+                        type: string
+            required:
+                - stocks
+                - balance
+                - trades
+
+        StockPriceRequestBody:
+            type: object
+            additionalProperties: false
+            properties:
+                limit:
+                    type: integer
+
+        StockPriceResponseBody:
+            type: object
+            additionalProperties: false
+            properties:
+                prices:
+                    type: array
+                    items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                            time:
+                                type: string
+                            open:
+                                type: integer
+                            close:
+                                type: integer
+                            high:
+                                type: integer
+                            low:
+                                type: integer
+            required:
+                - prices
+
+        TradeSubmitRequestBody:
+            type: object
+            additionalProperties: false
+            properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                strategy:
+                    type: string
+            required:
+                - name
+                - description
+                - strategy
+
+        TradeSubmitResponseBody:
+            type: object
+            additionalProperties: false
+            properties:
+                trade_id:
+                    type: string
+                strategy_integrity:
+                    type: string
+            required:
+                - trade_id
+                - strategy_integrity
+
+        TradeStatusRequestBody:
+            type: object
+            additionalProperties: false
+            properties:
+                trade_id:
+                    type: string
+            required:
+                - trade_id
+
+        TradeStatusResponseBody:
+            type: object
+            additionalProperties: false
+            properties:
+                net_profit:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+                description:
+                    type: string
+                strategy:
+                    type: string
+                strategy_integrity:
+                    type: string
+                status:
+                    type: string
+                timestamp:
+                    type: string
+            required:
+                - net_profit
+                - name
+                - description
+                - strategy
+                - strategy_integrity
+                - timestamp
+                - status
+
+        TradeHistoryRequestBody:
+            type: object
+            additionalProperties: false
+            properties:
+                limit:
+                    type: integer
+
+        TradeHistoryResponseBody:
+            type: object
+            additionalProperties: false
+            properties:
+                trades:
+                    type: array
+                    items:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                            trade_id:
+                                type: string
+                            net_profit:
+                                type: integer
+                                format: int64
+                            strategy_integrity:
+                                type: string
+                            status:
+                                type: string
+                            timestamp:
+                                type: string
+            required:
+                - trades

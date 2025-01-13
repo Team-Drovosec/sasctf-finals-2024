@@ -1,0 +1,81 @@
+services:
+    axel-auth:
+        build: ./AxelAuth
+        restart: always
+        ports:
+            - "25566:25566"
+        volumes:
+            - axel-db:/app/db
+            - axel-keys:/app/keys
+        environment:
+            - APP_URL=http://127.321.456.789:25566
+            - TOKEN_EXPIRE_SEC=3600
+
+        cpus: 2
+        pids_limit: 1024
+        mem_limit: 1G
+        memswap_limit: 1G
+        ulimits:
+            nofile:
+                soft: 12000
+                hard: 12000
+
+    proxy:
+        build: ./Proxy
+        restart: always
+        ports:
+            - "25565:25565"
+        volumes:
+            - proxy-logs:/proxy/logs
+        cpus: 1
+        pids_limit: 1024
+        mem_limit: 1G
+        memswap_limit: 1G
+        ulimits:
+            nofile:
+                soft: 12000
+                hard: 12000
+
+    lobby:
+        build: ./LobbyServer
+        restart: always
+        volumes:
+            - lobby-worlds:/server/worlds
+            - lobby-logs:/server/logs
+
+        cpus: 8
+        pids_limit: 8096
+        mem_limit: 8G
+        memswap_limit: 8G
+        ulimits:
+            nofile:
+                soft: 12000
+                hard: 12000
+
+    planets:
+        build: ./PlanetServer
+        restart: always
+        volumes:
+            - planets-worlds:/server/worlds
+            - planets-logs:/server/logs
+            - planets-wg-worlds:/server/plugins/WorldGuard/worlds
+            - planets-wg-cache:/server/plugins/WorldGuard/cache
+        cpus: 8
+        pids_limit: 8096
+        mem_limit: 8G
+        memswap_limit: 8G
+        ulimits:
+            nofile:
+                soft: 12000
+                hard: 12000
+
+volumes:
+    axel-db:
+    axel-keys:
+    proxy-logs:
+    lobby-worlds:
+    lobby-logs:
+    planets-worlds:
+    planets-logs:
+    planets-wg-worlds:
+    planets-wg-cache:

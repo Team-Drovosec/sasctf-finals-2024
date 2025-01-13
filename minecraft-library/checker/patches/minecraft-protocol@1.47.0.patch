@@ -1,0 +1,39 @@
+diff --git a/src/client/mojangAuth.js b/src/client/mojangAuth.js
+index ea1a6d84423b05cc96e66fe98b88e952d0a1bd2c..1e0f1813a3cc47975cf5d1b93b38f690cd7e605a 100644
+--- a/src/client/mojangAuth.js
++++ b/src/client/mojangAuth.js
+@@ -139,7 +139,7 @@ module.exports = async function (client, options) {
+ 
+     if (options.session) {
+       if (!skipValidation) {
+-        yggdrasilClient.validate(options.session.accessToken, function (err) {
++        yggdrasilClient.validate(options.session.accessToken, options.session.clientToken, function (err) {
+           if (!err) { cb(null, options.session) } else {
+             yggdrasilClient.refresh(options.session.accessToken, options.session.clientToken, function (err, accessToken, data) {
+               if (!err) {
+diff --git a/src/client.js b/src/client.js
+index c89375e32babbf3559655b1e95f6441b9a30796f..0bfb3886b322886afb80601d16be322de54ee300 100644
+--- a/src/client.js
++++ b/src/client.js
+@@ -10,7 +10,7 @@ const createDeserializer = require('./transforms/serializer').createDeserializer
+ const createCipher = require('./transforms/encryption').createCipher
+ const createDecipher = require('./transforms/encryption').createDecipher
+ 
+-const closeTimeout = 30 * 1000
++const closeTimeout = 10 * 1000
+ 
+ class Client extends EventEmitter {
+   constructor (isServer, version, customPackets, hideErrors = false) {
+diff --git a/src/createClient.js b/src/createClient.js
+index 10cacc070620ecc871058ab7359027a932788b4a..05a08632fce65dfdfe9f845d3449982793e22d2b 100644
+--- a/src/createClient.js
++++ b/src/createClient.js
+@@ -42,7 +42,7 @@ function createClient (options) {
+   } else {
+     switch (options.auth) {
+       case 'mojang':
+-        console.warn('[deprecated] mojang auth servers no longer accept mojang accounts to login. convert your account.\nhttps://help.minecraft.net/hc/en-us/articles/4403181904525-How-to-Migrate-Your-Mojang-Account-to-a-Microsoft-Account')
++        // console.warn('[deprecated] mojang auth servers no longer accept mojang accounts to login. convert your account.\nhttps://help.minecraft.net/hc/en-us/articles/4403181904525-How-to-Migrate-Your-Mojang-Account-to-a-Microsoft-Account')
+         auth(client, options)
+         break
+       case 'microsoft':

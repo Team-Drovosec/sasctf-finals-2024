@@ -1,0 +1,76 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Space DJ</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/script.js"></script>
+</head>
+<body>
+  <div id="global-wrapper" style="display: none">
+    <div id="ui">
+      <pre>
+
+      </pre>
+      <figure class="ui-bg"></figure>
+      <div class="preset-box">
+        <div class="preset-selector-wrapper">
+          <label for="preset-selector" class="preset-label">Preset:</label>
+          <select id="preset-selector">
+              <option value="BASSBOOST_TAZ">Bassboost Taz</option>
+              <option value="BASSBOOST_PACAN">Bassboost Pacan</option>
+              <option value="NIGHTCORE">Nightcore</option>
+              <option value="DAYCORE">Daycore</option>
+              <option value="REVERB">Reverb</option>
+              <option value="EARRAPE">Earrape</option>
+              <option value="CUSTOM">Custom</option>
+          </select>
+        </div>
+        <div class="slider-container">
+          <label for="bass_slider">Bass</label>
+          <input type="range" min="-20" max="20" value="0" class="slider" id="bass_slider">
+          <input type="text" placeholder="0" class="number-input" id="bass">
+        </div>
+        <div class="slider-container">
+          <label for="treble_slider">Treble</label>
+          <input type="range" min="-20" max="20" value="0" class="slider" id="treble_slider">
+          <input type="text" placeholder="0" class="number-input" id="treble">
+        </div>
+        <div class="slider-container">
+          <label for="volume_slider">Volume</label>
+          <input type="range" min="-20" max="20" value="0" class="slider" id="volume_slider">
+          <input type="text" placeholder="0" class="number-input" id="volume">
+        </div>
+        <div class="slider-container">
+          <label for="reverb_slider">Reverb</label>
+          <input type="range" min="0" max="100" value="0" class="slider" id="reverb_slider">
+          <input type="text" placeholder="0" class="number-input" id="reverb">
+        </div>
+        <div class="slider-container">
+          <label for="tempo_slider">Tempo</label>
+          <input type="range" min="0" max="2" value="0" class="slider" step="0.05" id="tempo_slider">
+          <input type="text" placeholder="0" class="number-input" id="tempo">
+        </div>
+        <div class="norm-checkbox-wrapper">
+          <input type="checkbox" id="normalize" name="normalize" />
+          <label for="normalize">Normalize</label>
+        </div>
+      </div>
+      <div class="input-group author-input">
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author">
+      </div>
+      <pre id="status">Nothing is playing</pre>
+      <img src="/img/logo.png" id="logo">
+      <div class="input-group file-input">
+        <label for="file">Choose File:</label>
+        <input type="file" id="file" name="file" >
+      </div>
+      <button id="make_remix_btn" class="big-button"><b>Remix it!</b></button>
+      <pre id="desc"><b>Changelog:</b>
+<b>1.2</b> - Added bassboost for taz
+<b>1.1</b> - Now supports expressions!
+<b>1.0</b> - Release</pre>
+    </div>
+  </div>
+</body>
+</html>

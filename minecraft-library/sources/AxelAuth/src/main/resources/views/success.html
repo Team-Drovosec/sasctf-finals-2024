@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft in Space Registration</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0d0d2b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            background: linear-gradient(145deg, #0f0f3a, #101048);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            width: 350px;
+            text-align: center;
+            border: 2px solid #4dff88;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #4dff88;
+        }
+
+        .input-field {
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #4dff88;
+            background: #0a0a24;
+            color: white;
+            outline: none;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: #80ffaa;
+            box-shadow: 0 0 10px #4dff88;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #4dff88;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #80ffaa;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .error-message {
+            background-color: #515151;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<div class="container">
+    <div id="error-message-container"></div>
+    <h1>Success</h1>
+    <div>
+        <p>Welcome!</p>
+    </div>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    function displayError(message) {
+        const errorContainer = document.getElementById('error-message-container');
+        const errorMessage = document.createElement('div');
+        errorMessage.classList.add('error-message');
+        errorMessage.textContent = message;
+        errorContainer.appendChild(errorMessage);
+    }
+
+    if (error) {
+        displayError(error);
+    }
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({
+        canvas: document.querySelector('#bg'),
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.position.setZ(30);
+    camera.position.setX(0);
+
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshStandardMaterial({ color: 0x4dff88 });
+    const cubes = [];
+
+    for (let i = 0; i < 50; i++) {
+        const cube = new THREE.Mesh(geometry, material);
+        cube.position.set(
+            (Math.random() - 0.5) * 50,
+            (Math.random() - 0.5) * 50,
+            (Math.random() - 0.5) * 50
+        );
+        scene.add(cube);
+        cubes.push(cube);
+    }
+
+    const ambientLight = new THREE.AmbientLight(0xffffff);
+    scene.add(ambientLight);
+
+    function addStar() {
+        const starGeometry = new THREE.SphereGeometry(0.25, 24, 24);
+        const starMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+        const star = new THREE.Mesh(starGeometry, starMaterial);
+
+        const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+        star.position.set(x, y, z);
+        scene.add(star);
+    }
+
+    Array(200).fill().forEach(addStar);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        cubes.forEach(cube => {
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+        });
+        renderer.render(scene, camera);
+    }
+
+    gsap.to(camera.position, {
+        z: 20,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+    });
+
+    animate();
+
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    });
+</script>
+</body>
+</html>
